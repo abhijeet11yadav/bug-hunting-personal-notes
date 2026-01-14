@@ -1,0 +1,147 @@
+---
+
+# 🔍 Recon Methodology – Subdomain Enumeration & Technology Fingerprinting
+## 🎯 Goal
+Identify **all reachable subdomains**, understand their **technology stack**, and prepare targets for deeper testing (XSS, IDOR, auth issues, etc.).
+
+---
+
+## 🧭 Step 1: Subdomain Enumeration & Technology Discovery
+### ✅ 1.1 Manual Enumeration (Passive Recon)
+
+These sources help find **historical, indexed, and certificate-based subdomains** without touching the target directly.
+
+**Certificate Transparency & Asset Discovery**
+
+* [https://crt.sh](https://crt.sh)
+* [https://search.censys.io](https://search.censys.io)
+* [https://cloud.projectdiscovery.io](https://cloud.projectdiscovery.io)
+
+**Threat Intelligence / OSINT**
+
+* [https://www.virustotal.com/gui/home/url](https://www.virustotal.com/gui/home/url)
+* [https://securitytrails.com](https://securitytrails.com)
+* [https://www.shodan.io](https://www.shodan.io)
+* [https://hunter.io](https://hunter.io) (email → domain intel)
+
+**Search Engine Dorking**
+
+```text
+site:*.example.com
+site:example.com -www
+```
+
+---
+
+### ✅ 1.2 Automated Subdomain Enumeration
+Automated tools are used to **scale discovery** and avoid missing assets.
+
+**Primary Tools**
+
+* `subfinder` – fast passive enumeration
+* `amass` – deep OSINT + DNS-based recon
+* `assetfinder` – quick subdomain discovery
+
+**Supplementary / Custom Tools**
+
+* `magicrecon`
+* `lostfuzzer.sh`
+* `alienvault.sh` (AlienVault OTX)
+
+**DNS Resolution**
+
+* `massdns` – validate discovered subdomains
+* `dnsx` – fast DNS resolution with filtering
+
+Example:
+
+```bash
+subfinder -d example.com -all | dnsx -silent > alive_subdomains.txt
+```
+
+---
+
+## 🧠 Step 2: Subdomain Validation & Live Host Detection
+After enumeration, identify **which subdomains are alive**.
+
+**Tools**
+
+* `httpx`
+* `httprobe`
+
+Example:
+
+```bash
+cat subdomains.txt | httpx -sc -title -ip -tech-detect -o live.txt
+```
+
+---
+
+## 🧩 Step 3: Technology Fingerprinting
+Identify frameworks, servers, WAFs, and backend tech.
+
+**Tools**
+
+* `httpx -tech-detect`
+* `whatweb`
+* `wappalyzer` (browser extension)
+* `builtwith.com`
+
+Example:
+
+```bash
+httpx -l live.txt -tech-detect -json -o tech.json
+```
+
+---
+
+## 🗂 Step 4: Asset Categorization
+Group targets to reduce noise and improve bug quality.
+
+**Examples**
+
+* Authentication portals
+* Admin panels
+* APIs
+* Static assets
+* Legacy systems
+
+```bash
+grep -i "login\|auth" live.txt > auth_targets.txt
+```
+
+---
+
+## 🔗 Step 5: URL & Endpoint Discovery (Next Phase)
+Once subdomains are ready, move to endpoint discovery.
+
+**Tools**
+
+* `hakrawler`
+* `katana`
+* `gau`
+* `waybackurls`
+* `paramspider`
+
+---
+
+## ⚠️ Important Notes
+* Always **deduplicate** results
+* Respect **program scope**
+* Passive recon first, active later
+* Cloudflare/WAF presence should be noted early
+
+---
+
+## 🧠 Pro Tip (Bug Bounty)
+
+> **Good recon = 70% of the bug**
+
+Well-organized recon leads to:
+
+* Better impact
+* Fewer duplicates
+* Faster triage acceptance
+
+---
+
