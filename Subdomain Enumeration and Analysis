@@ -70,3 +70,27 @@ Step 6: Confirm Takeover Possibility (Safely)
 Enumerate subdomains, identify third-party CNAMEs, verify unclaimed services manually, and confirm takeover feasibility before reporting.
 
 
+Does the subdomain have a CNAME?:-
+ex ouput 
+    ANSWER SECTION:
+    blog.stylestry.com. 300 IN A 172.67.75.96
+    blog.stylestry.com. 300 IN A 104.26.2.79
+    blog.stylestry.com. 300 IN A 104.26.3.79
+
+👉 These are A records, not CNAME. blog.stylestry.com points directly to IP addresses, not to another domain.
+
+Is it bound to an external third-party service? :-
+    NO (for takeover purposes)
+
+💣  Is Subdomain Takeover Possible? :_
+❌ NO — Not possible
+Why?
+    Check	Result
+    CNAME present	❌ No
+    External service	❌ No
+    Unclaimed resource	❌ No
+    Claimable by attacker	❌ No
+    ➡️ This subdomain is NOT vulnerable to takeover
+
+⚠️ Key Takeaway (burn this into memory)
+No CNAME = No classic subdomain takeover
