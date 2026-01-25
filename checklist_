@@ -17,3 +17,60 @@
     dig random123.domain.com
     nslookup test123.domain.com
     dig test123.domain.com +short
+
+
+5 domain takeover:- 
+        ✅ What a Subdomain Takeover Is
+        A subdomain takeover happens when:
+        A subdomain points (CNAME/A) to a third-party service
+        That service is unclaimed / deleted
+        An attacker can claim it and control the subdomain
+Step 1: Subdomain Enumeration
+    subfinder -d domain.com -all -silent
+    
+    Optional tools:
+        amass
+        assetfinder
+        findomain
+
+step 2: Check Which Subdomains Are Alive
+    httpx tool or http
+    
+Step 3: Identify CNAME / DNS Records (CRITICAL)
+    This step decides if takeover is even possible.
+    dig sub.domain.com
+    
+    Look for:
+    CNAME pointing to:
+    *.amazonaws.com
+    *.azurewebsites.net
+    *.herokuapp.com
+    *.netlify.app
+    *.vercel.app
+    *.github.io
+    *.zendesk.com
+    ⚠️ No CNAME = usually no takeover
+    
+Step 4: Automated Takeover Scan
+    python3 takeover.py -l subdomains.txt
+    or
+    subjack -w subdomains.txt -ssl -t 50
+    or
+    nuclei -t takeover/
+    
+Step 5: Manual Verification (MOST IMPORTANT)
+    Never trust tools blindly.
+    Visit the subdomain in browser and look for:
+        “No such app”
+        “There isn’t a GitHub Pages site here”
+        “Domain not found”
+        “Project does not exist”
+        
+Step 6: Confirm Takeover Possibility (Safely)
+    Check:
+        Can the service be claimed?
+        Is the name available in that service dashboard?
+        ⚠️ Do NOT actually claim unless program allows it.
+Enumerate subdomains, identify third-party CNAMEs, verify unclaimed services manually, and confirm takeover feasibility before reporting.
+
+
