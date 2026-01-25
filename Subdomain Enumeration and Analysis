@@ -2,7 +2,7 @@
 
 (Bug Bounty / Recon Notes)
 
-🧩 1️⃣ Wildcard DNS Misconfiguration
+1️⃣ 🧩 Wildcard DNS Misconfiguration
 🔍 What Is It?
 
 A Wildcard DNS misconfiguration exists when a domain resolves any random or non-existent subdomain to an IP address or external service.
@@ -40,7 +40,7 @@ dig test123.domain.com +short
 
 👉 If any random name resolves, wildcard DNS may exist.
 
-🏴‍☠️ 2️⃣ Subdomain Takeover
+2️⃣🏴‍☠️  Subdomain Takeover
 
     ✅ What Is a Subdomain Takeover?
     A subdomain takeover occurs when:
@@ -139,3 +139,52 @@ No CNAME = usually no classic subdomain takeover
 ⚠️ Key Takeaway (Burn This Into Memory 🔥)
 
 No CNAME = No classic subdomain takeover
+
+
+
+3️⃣ 🔎 Analyzing Subdomain Permutations & Typosquats
+📌 What Does It Mean?
+    Analyzing subdomain permutations and typosquats means searching for subdomains created due to:
+    Spelling mistakes
+    Variations of valid subdomains
+    Alternate naming patterns
+    These subdomains may be:
+        ❌ Unused
+        ⚠️ Misconfigured
+        🕰️ Forgotten
+        💣 Vulnerable to takeover
+        🔓 Exposed services
+
+🧭 Methodology (Step-by-Step)
+
+🔹 Step 1: Start with Known Subdomains
+    Collect valid subdomains from recon tools, such as:
+        api.domain.com
+        admin.domain.com
+        login.domain.com
+    These act as the base input for permutations.
+
+🔹 Step 2: Generate Permutations & Typos
+    Create variations and typo-based subdomains using tools like:
+        dnsgen
+        gotator
+        altdns
+    📟 Example Command
+    dnsgen subs.txt > permuted.txt
+This generates modified and misspelled subdomains.
+
+🔹 Step 3: Resolve Generated Subdomains
+    Check which generated subdomains actually exist in DNS:
+        dnsx -l permuted.txt
+    Only resolved subdomains move to the next step.
+
+🔹 Step 4: Analyze the Results
+    Manually analyze resolved subdomains for:
+    🧪 Staging / dev environments
+    🌐 Third-party CNAMEs
+    🕳️ Forgotten services
+    ❗ Error or misconfiguration pages
+    These often lead to high-impact findings.
+
+🧠 One-Line Meaning (Easy to Remember)
+Analyzing subdomain permutations and typosquats means systematically finding and testing misspelled or modified subdomains to discover hidden, forgotten, or vulnerable services.
