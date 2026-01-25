@@ -3,6 +3,7 @@
 (Bug Bounty / Recon Notes)
 
 1️⃣ 🧩 Wildcard DNS Misconfiguration
+
 🔍 What Is It?
 
 A Wildcard DNS misconfiguration exists when a domain resolves any random or non-existent subdomain to an IP address or external service.
@@ -143,6 +144,7 @@ No CNAME = No classic subdomain takeover
 
 
 3️⃣ 🔎 Analyzing Subdomain Permutations & Typosquats
+
 📌 What Does It Mean?
     Analyzing subdomain permutations and typosquats means searching for subdomains created due to:
     Spelling mistakes
@@ -188,3 +190,48 @@ This generates modified and misspelled subdomains.
 
 🧠 One-Line Meaning (Easy to Remember)
 Analyzing subdomain permutations and typosquats means systematically finding and testing misspelled or modified subdomains to discover hidden, forgotten, or vulnerable services.
+
+
+4️⃣ 📂 Directory Testing – Analysis Notes
+
+🔍 What Was Tested
+    Standard directories:
+        /admin
+        /login
+        /api
+        /dev
+        /staging
+        /test
+        /profile
+        /dashboard
+
+    Tested on:
+        https://test.stylestry.com
+
+    📌 Observations
+        ❌ Same response for all paths
+        ❌ HTTP status: 404 Not Found
+        ❌ Server: nginx
+        ❌ Same response length
+        ❌ No extra headers
+        ❌ No response body variation
+
+    🧠 What This Means
+        ✅ Directories do not exist
+        ✅ No wildcard routing configured
+        ✅ No directory traversal surface
+        ✅ No exposed endpoints
+        ✅ Proper server behavior
+
+    🚫 Security Impact
+        Not a vulnerability
+        Not reportable
+        No misconfiguration detected
+
+🧠 When to Stop Testing
+If 15–20 meaningful directories return identical 404 responses → stop path testing.
+
+🧠 Key Takeaway
+Consistent nginx 404 responses across all tested directories indicate a properly configured server with no exposed paths or traversal risk.
+
+
