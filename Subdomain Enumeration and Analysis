@@ -1,8 +1,4 @@
-1 xss
-2 sql 
-3 login page
-
-4 Wildcard DNS Misconfiguration 
+1 Wildcard DNS Misconfiguration 
     What to Look For
     Random or non-existent subdomains still resolve
     DNS returns an IP or CNAME for any subdomain
@@ -19,7 +15,7 @@
     dig test123.domain.com +short
 
 
-5 domain takeover:- 
+2 domain takeover:- 
         ✅ What a Subdomain Takeover Is
         A subdomain takeover happens when:
         A subdomain points (CNAME/A) to a third-party service
