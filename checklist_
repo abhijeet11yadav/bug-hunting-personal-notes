@@ -1,0 +1,19 @@
+1 xss
+2 sql 
+3 login page
+
+4 Wildcard DNS Misconfiguration 
+    What to Look For
+    Random or non-existent subdomains still resolve
+    DNS returns an IP or CNAME for any subdomain
+    Presence of *.domain.com wildcard records
+    CNAME pointing to third-party services (AWS, Azure, Netlify, Vercel, etc.)
+    Error pages like:
+    “No such app”
+    “Domain not configured”
+    “Unclaimed site”
+
+    command:- look for the ip and any records or answer
+    dig random123.domain.com
+    nslookup test123.domain.com
+    dig test123.domain.com +short
