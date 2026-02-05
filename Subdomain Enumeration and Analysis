@@ -235,3 +235,10 @@ If 15–20 meaningful directories return identical 404 responses → stop path t
 Consistent nginx 404 responses across all tested directories indicate a properly configured server with no exposed paths or traversal risk.
 
 
+5️⃣ Locating vulnerable subdomains through site leaks (robots.txt, sitemap.xml).
+6️⃣Searching GitHub repositories for subdomain-specific secrets.
+7️⃣ Finding wildcards in third-party JavaScript files.
+
+
+
+
