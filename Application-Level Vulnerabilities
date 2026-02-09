@@ -1,0 +1,44 @@
+1 🌐 CORS Misconfiguration (Subdomains)
+Cross-Origin Resource Sharing (CORS) Misconfiguration
+
+📖 Short Description
+CORS misconfiguration happens when a subdomain allows cross-origin requests from untrusted origins, potentially exposing sensitive data to attackers.
+
+🧭 Methodology
+1️⃣ Find All Subdomains
+subfinder -d domain.com -all -silent > subs.txt
+
+2️⃣ Scan Using Automated Tool
+Tool: Corsy-1.0-rc
+python3 corsy.py -i subs.txt -t 10
+
+Finds:
+Access-Control-Allow-Origin: *
+Reflected origins
+Third-party allowed origins
+
+3️⃣ Manual Testing
+curl -i https://sub.domain.com -H "Origin: https://evil.com"
+
+Check:
+Access-Control-Allow-Origin
+Access-Control-Allow-Credentials
+⚠️ Risky if credentials are allowed.
+
+4️⃣ Exploitation Proof (PoC)
+Use CORS PoC HTML (index.html) to verify:
+
+Can attacker read response?
+Are cookies sent?
+If data is readable → valid vulnerability
+
+🎯 Key Point
+CORS becomes serious only when sensitive data is accessible cross-origin
+
+⚠️ Final Important Note
+Even when CORS allows only a specific trusted origin, the target can still be vulnerable if that trusted/parent origin has issues like XSS, open redirect, or other client-side injections.
+In this case, an attacker can run malicious JavaScript on the trusted origin, abuse the CORS trust, and read sensitive data from the target site.
+
+🧠 Key Takeaway:
+CORS is only as secure as the origin it trusts.
+If the trusted origin is compromised, CORS becomes exploitable even without wildcard (*) ACAO.
