@@ -25,6 +25,9 @@ Access-Control-Allow-Origin
 Access-Control-Allow-Credentials
 ⚠️ Risky if credentials are allowed.
 
+nuclei_tool_for_cors_canning
+nuclei -list sort_alive.txt -t /root/nuclei-templates-10.3.8/http/vulnerabilities/generic/cors-misconfig.yaml 
+
 4️⃣ Exploitation Proof (PoC)
 Use CORS PoC HTML (index.html) to verify:
 
