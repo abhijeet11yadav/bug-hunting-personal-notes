@@ -1,0 +1,62 @@
+XSS on Wildcard Subdomain
+
+📖 Description
+  This occurs when a subdomain:
+  Returns the same response for any path (wildcard behavior)
+  Reflects user input (URL path / parameters)
+  Does not properly sanitize the input
+  This allows attackers to inject and execute JavaScript.
+
+🌍 What is a Wildcard Response?
+A wildcard subdomain:
+  Accepts any random path
+  Returns 200 OK
+  Shows the same page content
+
+Example:
+  https://sub.domain.com/test
+  https://sub.domain.com/abc123
+  https://sub.domain.com/random
+
+All return the same page.
+
+🎯 Where XSS Happens
+  If the application reflects:
+  URL path
+  Query parameters
+  Headers
+
+Without sanitization, attacker can inject:
+  "><svg/onload=alert(1)>
+
+
+If executed → Valid XSS
+
+🧭 Testing Methodology
+1️⃣ Find Live Subdomains
+  subfinder -d domain.com | httpx
+2️⃣ Check Wildcard Behavior
+  Visit:
+  /random123
+  /testxyz
+  /anything
+
+If same response → wildcard confirmed.
+3️⃣ Test Reflection
+
+Try:
+  https://sub.domain.com/<payload>
+  https://sub.domain.com/?q=<payload>
+
+Check if input appears in response.
+
+4️⃣ Inject XSS Payload
+  "><svg/onload=alert(1)>
+
+If popup triggers → vulnerability confirmed.
+
+⚠️ Why It’s Dangerous
+Every URL becomes an injection point
+Hard to detect with normal crawling
+Can affect all users of that subdomain
+Useful for chaining (CORS, token theft)
